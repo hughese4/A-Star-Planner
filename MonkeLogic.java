@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class MonkeLogic {
@@ -26,13 +27,24 @@ public class MonkeLogic {
             System.out.print("[1] Room A\n[2] Room B\n[3] Room C\n==> ");
             bananas_loc = scanner.next();
         } while (!bananas_loc.equals("A") && !bananas_loc.equals("B") && !bananas_loc.equals("C"));
+        scanner.close();
     }
 
-    // Main loop for the program
-    public void planLoop() {
-        System.out.println("The monkey is in room " + room_loc);
-        System.out.println("The box is in room " + box_loc);
-        System.out.println("The bananas are in room " + bananas_loc);
-    }
+    // Main logic for the program
+    public void planGenerator() {
+        WorldState initialState = new WorldState(room_loc, box_loc, bananas_loc, "low", false);
+        AStarPlanner planner = new AStarPlanner();
+        List<Operator> solution = planner.plan(initialState);
 
+        if (solution != null) {
+            System.out.println("Plan:");
+            for (Operator op : solution) {
+                System.out.println(op.toString());
+            }
+            System.out.println("=================================================\n");
+        } else {
+            System.out.println("No solution found.");
+            System.out.println("=================================================\n");
+        }
+    }
 }

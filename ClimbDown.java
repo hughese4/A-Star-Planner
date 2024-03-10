@@ -9,8 +9,19 @@ public class ClimbDown extends Operator{
         return false;
     }
 
-    public WorldState apply(WorldState state) {
-        state.setMonkeyheight("low");
-        return state;
+    public WorldState apply(WorldState currentState) {
+        WorldState newState = new WorldState(currentState.getMonkeyLoc(),
+                                         currentState.getBoxLoc(),
+                                         currentState.getBananaLoc(),
+                                         "low", // changes height
+                                         currentState.getHasBananas());
+        
+        newState.setParent(currentState);
+        newState.setAction(this);
+        return newState;
+    }
+
+    public String toString() {
+        return "ClimbDown ()";
     }
 }
